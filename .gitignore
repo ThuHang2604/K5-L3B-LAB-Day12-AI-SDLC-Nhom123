@@ -5,3 +5,4 @@ __pycache__/
 !docs/proof/**/*.jsonl
 .DS_Store
 dist/
+instruct
