@@ -31,6 +31,6 @@ Trên Windows dùng Python 3.11.9 và Git Bash. Đã tạo môi trường Python
 
 ## Các bước còn phụ thuộc nhóm
 
-- P4-07: Linh cần tự viết phản tư cá nhân ≤ 200 từ theo `docs/members/TEMPLATE.md`. Bản trong bộ hướng dẫn còn placeholder; chưa đưa vào repo như một bài phản tư đã hoàn thành.
+- P4-07: Đã bổ sung [phản tư của Linh](../../members/xrkhanhlinh.md) theo yêu cầu Linh nhờ AI soạn, dưới 200 từ và dựa trên các việc đã được ghi nhận trong lần tích hợp này.
 - Gắn tag phase và công bố Release yêu cầu trạng thái trên `main` đã được nhóm tích hợp và kiểm chứng. Lần này chuẩn bị và push nhánh `linh`; chưa gắn tag lịch sử hoặc công bố Release từ nhánh cá nhân.
 - Khi bàn giao, nhóm cần đọc lại thay đổi hợp đồng theo thỏa thuận trong `TEAM.md`.
