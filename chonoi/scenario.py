@@ -161,3 +161,35 @@ def _validate_quan(b, tuning):
             raise BadInput(f"customers.{c['id']}: table_id phải là bàn có thật")
     if len(table_ids) != len(set(table_ids)):
         raise BadInput("hai khách cùng bàn")
+    _validate_quan_rules(b, tuning)
+
+
+def _validate_quan_rules(b, tuning):
+    """Mâu thuẫn mức luật của quán (PRD-0 mục D): món, trạng thái khách, giữ chỗ vượt kho, hand, uy tín."""
+    q, menu = tuning["quan"], tuning["menu"]
+    if "hand" in b and b["hand"] is not None and b["hand"] not in menu:
+        raise BadInput("hand phải là null hoặc id món có trong menu")
+    if "reputation" in b:
+        r = b["reputation"]
+        if not _num(r) or not (q["reputation_min"] <= r <= q["reputation_max"]):
+            raise BadInput("reputation nằm ngoài [reputation_min, reputation_max]")
+    stock = dict(b.get("stock", {}))
+    reserved_total = {}
+    for c in b.get("customers", []):
+        state = c.get("state", "assigned")
+        if state not in ("assigned", "eating"):
+            raise BadInput(f"customers.{c['id']}: state phải là assigned hoặc eating")
+        if c.get("dish") not in menu:
+            raise BadInput(f"customers.{c['id']}: đơn {state} phải có đúng một món có trong menu")
+        for key in ("patience_ticks", "eat_ticks_left"):
+            if key in c:
+                _nonneg_int(f"customers.{c['id']}.{key}", c[key])
+        if state == "assigned" and not c.get("cooking", False) and "reserved" not in c:
+            for k, n in menu[c["dish"]]["recipe"].items():
+                reserved_total[k] = reserved_total.get(k, 0) + n
+        for k, n in c.get("reserved", {}).items():
+            reserved_total[k] = reserved_total.get(k, 0) + n
+    if "stock" in b or "customers" in b:
+        for k, n in reserved_total.items():
+            if n > stock.get(k, 0) and "stock" in b:
+                raise BadInput(f"khách giữ chỗ {k} nhiều hơn kho ({n} > {stock.get(k, 0)})")
