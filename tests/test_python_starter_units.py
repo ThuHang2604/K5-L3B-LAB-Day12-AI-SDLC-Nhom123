@@ -62,10 +62,10 @@ class Units(unittest.TestCase):
 
     def test_session_steps_gather_and_dock(self):
         tuning = load_contract()["tuning"]
-        s = Session("gather", tuning, {"hold": ["ca_loc"]}, 1)
+        s = Session("gather", tuning, {"hold": [{"id": "I1", "kind": "ca_loc", "fresh": 100}], "random_fish": False}, 1)
         self.assertEqual(s.snapshot()["tick"], 0)
         li = LiveInputs()
-        self.assertEqual(s.step(li.advance()), [])
+        self.assertEqual([r["name"] for r in s.step(li.advance())], [])
         li.set(interact=True)
         rows = s.step(li.advance())
         self.assertEqual([r["name"] for r in rows], ["gather_end"])
