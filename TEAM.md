@@ -5,7 +5,7 @@
 | Thành viên | GitHub handle | Module chính | Vai quy trình | Người dự phòng cho |
 |---|---|---|---|---|
 | Đỗ Thị Thu Hằng | ThuHang2604 | `sim/day` (vòng ngày, Shop), adapter kho cá thể, `soak`, `tests/` | PO, QA lead (trưởng nhóm, chủ fork) | `sim/quan` |
-| Linh | linh-nhom123 | `sim/gather` (lặn, cá, Cá Sấu, độ tươi giỏ) | Integrator (giữ `docs/contracts/`, gắn tag, Release) | `sim/day` |
+| Linh | xrkhanhlinh | `sim/gather` (lặn, cá, Cá Sấu, độ tươi giỏ) | Integrator (giữ `docs/contracts/`, gắn tag, Release) | `sim/day` |
 | Vinh | vinh-nhom123 | `sim/quan` (khách, giữ chỗ, bếp, tiền, giá theo tươi) | Scrum/Release, Đóng gói | `sim/gather` |
 | Dung | dung-nhom123 | `client/ui` (`chonoi/web`, `chonoi/live.py`, HUD, `bench`) | QA UI, Bench | `sim/quan` |
 
