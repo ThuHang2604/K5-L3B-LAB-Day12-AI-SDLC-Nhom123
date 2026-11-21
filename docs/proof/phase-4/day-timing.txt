@@ -1,0 +1,2 @@
+day --days 1 --ticks 22200: 1.0 s
+{"type":"end","ticks":22200,"sim_tick":22200,"mode":"day","state":"finished","reason":"days_complete","money":0,"earned":0,"reputation":3.0,"score":300,"days_completed":1}

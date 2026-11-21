@@ -60,3 +60,26 @@ class LiveServerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LiveDayFlow(unittest.TestCase):
+    def test_day_mode_menu_and_intros_hold_sim(self):
+        tuning = load_contract()["tuning"]
+        game = LiveGame("day", tuning, {"gather": {"random_fish": False}}, 1, days=1)
+        st = json.loads(game.state_json())
+        self.assertEqual(st["ui_hold"], "menu")
+        self.assertEqual(st["phase"], "gather")
+        self.assertIsInstance(st["hold"], list, "giỏ gather không bị đè bởi trạng thái UI")
+        game._tick_once()
+        self.assertEqual(game.session.tick, 0, "menu giữ sim đứng yên")
+        game.continue_()
+        self.assertEqual(game.hold, "day_intro")
+        game.continue_()
+        self.assertIsNone(game.hold)
+        game._tick_once()
+        self.assertEqual(game.session.tick, 1)
+        game.set_input({"interact": True})
+        game._tick_once()  # cập bến -> mở quán -> EveningIntro
+        self.assertEqual(game.session.sim.phase, "quan")
+        self.assertEqual(game.hold, "evening_intro")
+        game.set_input({"buy": "oxygen", "pause": False, "shop_done": False})

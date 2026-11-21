@@ -1,0 +1,2 @@
+bench: không dùng được trình duyệt (ModuleNotFoundError: No module named 'playwright'); chuyển sang renderer software
+bench: renderer=software {"avg_fps": 755.67, "p1_low_fps": 302.13, "frames": 22671, "measured_s": 30.001, "load_ms": 55}
