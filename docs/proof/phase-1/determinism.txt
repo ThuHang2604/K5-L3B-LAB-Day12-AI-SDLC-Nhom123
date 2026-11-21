@@ -1,0 +1,2 @@
+gather: seed 7, 1500 tick, 2 lần chạy -> GIỐNG từng byte (6aa607d27358)
+quan: seed 7, 1500 tick, 2 lần chạy -> GIỐNG từng byte (8306e632c43d)
