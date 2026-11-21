@@ -61,6 +61,7 @@ class LiveGame:
         # mode day: bắt đầu ở menu chính; các màn chuyển giữ sim lại
         self.hold = "menu" if self.mode == "day" else None
         self.stats = {"days": [], "dish_sold": {}}
+        self.bench_result = getattr(self, "bench_result", None)
         self._day_stat = None
 
     # --- luồng nền ----------------------------------------------------------------
@@ -220,7 +221,8 @@ class _Handler(BaseHTTPRequestHandler):
             n = int(self.headers.get("Content-Length") or 0)
         except ValueError:
             n = -1
-        if n < 0 or n > MAX_BODY:
+        limit = 4 * 1024 * 1024 if path == "/bench_result" else MAX_BODY
+        if n < 0 or n > limit:
             self._send(400, b'{"error":"body sai"}')
             return
         raw = self.rfile.read(n) if n else b""
@@ -232,6 +234,8 @@ class _Handler(BaseHTTPRequestHandler):
                 self.game.set_input(body)
             elif path == "/restart":
                 self.game.restart()
+            elif path == "/bench_result":  # benchmark có render (chonoi.bench) gửi thời gian khung hình về
+                self.game.bench_result = json.loads(raw.decode("utf-8"))
             elif path == "/continue":
                 self.game.continue_()
             elif path == "/quit":
