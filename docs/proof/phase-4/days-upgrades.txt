@@ -1,0 +1,15 @@
+$ chonoi.headless --mode day --days 3 --seed 1 --scenario D:/AI-VIN/thuchanh/K5-L3B-LAB-Day12-AI-SDLC-Nhom123/docs/proof/phase-4\days-scenario.json --inputs D:/AI-VIN/thuchanh/K5-L3B-LAB-Day12-AI-SDLC-Nhom123/docs/proof/phase-4\days-inputs.json --ticks 32411 --snapshot-every 100000 --out D:/AI-VIN/thuchanh/K5-L3B-LAB-Day12-AI-SDLC-Nhom123/docs/proof/phase-4\days.jsonl
+tick      0 day 1 day_start  {}
+tick      0 day 1 gather start: upgrades={} active={} oxygen_max_ticks=1800 hp_max=3 hp=3
+tick  10802 day 1 bought     {"upgrade": "oxygen", "level": 1, "price": 200, "money": 800}
+tick  10802 day 1 shop_end   {"reason": "done"}
+tick  10802 day 2 day_start  {}
+tick  10802 day 2 gather start: upgrades={'oxygen': 1} active={'oxygen': 1} oxygen_max_ticks=2700 hp_max=3 hp=3
+tick  21604 day 2 bought     {"upgrade": "hp", "level": 1, "price": 250, "money": 550}
+tick  21604 day 2 shop_end   {"reason": "done"}
+tick  21604 day 3 day_start  {}
+tick  21604 day 3 gather start: upgrades={'hp': 1, 'oxygen': 1} active={'hp': 1, 'oxygen': 1} oxygen_max_ticks=2700 hp_max=4 hp=4
+tick  32406 day 3 bought     {"upgrade": "oxygen", "level": 2, "price": 400, "money": 150}
+tick  32406 day 3 shop_end   {"reason": "done"}
+end: {"type": "end", "ticks": 32406, "sim_tick": 32406, "mode": "day", "state": "finished", "reason": "days_complete", "money": 150, "earned": 1000, "reputation": 3.0, "score": 1300, "days_completed": 3}
+KẾT QUẢ: ĐẠT

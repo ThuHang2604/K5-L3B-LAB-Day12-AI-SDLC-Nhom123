@@ -1,0 +1,1 @@
+deterministic gather seed 7 x3000: giống từng byte

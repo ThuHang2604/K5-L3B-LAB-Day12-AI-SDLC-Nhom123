@@ -1,0 +1,4 @@
+file kho : {'items': [{'id': 'I1', 'kind': 'ca_linh', 'fresh': 99.99166666666666}]}
+stock t0 : [{'id': 'I1', 'kind': 'ca_linh', 'fresh': 99.992}]
+so id/kind/fresh (±0.01), fresh = 100 − 1 bước hao gather: ĐẠT
+KẾT QUẢ  : ĐẠT
