@@ -65,3 +65,16 @@ class Workdir:
 
     def path(self, name):
         return os.path.join(self._d.name, name)
+
+
+def items(*kinds, fresh=100, start=1):
+    """Cá thể kho v1.2: items("ca_loc", "bong_sung") -> [{"id":"I1","kind":"ca_loc","fresh":100}, ...]."""
+    return [{"id": f"I{start + i}", "kind": k, "fresh": fresh} for i, k in enumerate(kinds)]
+
+
+def ids_of(arr):
+    return [x["id"] for x in arr]
+
+
+def kinds_of(arr):
+    return [x["kind"] for x in arr]

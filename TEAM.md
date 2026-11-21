@@ -1,21 +1,21 @@
 # TEAM
 
-**Tên nhóm:** …  **Số người:** …  (khớp `team_size` trong `game.contract.json`)
+**Tên nhóm:** Nhom123 (`team: "nhom123"`)  **Số người:** 4  (khớp `team_size` trong `game.contract.json`)
 
 | Thành viên | GitHub handle | Module chính | Vai quy trình | Người dự phòng cho |
 |---|---|---|---|---|
-| | | `sim/gather` | | |
-| | | `sim/quan` | | |
-| | | `client/ui` | | |
-| | | `qa` | | |
+| Đỗ Thị Thu Hằng | ThuHang2604 | `sim/day` (vòng ngày, Shop), adapter kho cá thể, `soak`, `tests/` | PO, QA lead (trưởng nhóm, chủ fork) | `sim/quan` |
+| Linh | linh-nhom123 | `sim/gather` (lặn, cá, Cá Sấu, độ tươi giỏ) | Integrator (giữ `docs/contracts/`, gắn tag, Release) | `sim/day` |
+| Vinh | vinh-nhom123 | `sim/quan` (khách, giữ chỗ, bếp, tiền, giá theo tươi) | Scrum/Release, Đóng gói | `sim/gather` |
+| Dung | dung-nhom123 | `client/ui` (`chonoi/web`, `chonoi/live.py`, HUD, `bench`) | QA UI, Bench | `sim/quan` |
 
-**Vai quy trình:** PO (đầu mối hỏi giảng viên, giữ `docs/clarify.md`) · Integrator (giữ `docs/contracts/`, gắn tag) · QA lead · Scrum/Release. Có thể kiêm.
+**Vai quy trình:** PO (đầu mối hỏi Anh Năm/giảng viên, giữ `docs/clarify.md`) · Integrator (giữ `docs/contracts/`, gắn tag `phase-n`, công bố Release) · QA lead (giữ test + ma trận truy vết) · Scrum/Release (theo dõi mốc, đóng gói).
 
-## Thỏa thuận làm việc nhóm (điền trong 15 phút kickoff, ≤ 10 dòng)
+## Thỏa thuận làm việc nhóm
 
-- Kênh liên lạc: …
-- Khi bất đồng về thiết kế: … (ví dụ: nói 2 phút, không xong thì Integrator quyết và ghi lại lý do)
-- Khi ai đó trễ hoặc vướng quá 10 phút: … (ví dụ: nói ngay trong kênh, người dự phòng nhận việc)
-- Giờ standup giữa phase: …
-- Cách đọc code của nhau (tùy chọn): … (ví dụ: mỗi người đọc lát kế bên; PR hoặc xem trực tiếp)
-- Cách làm việc với Git: … (ví dụ: push thẳng nhánh chính / nhánh ngắn rồi gộp; thống nhất ai gắn tag)
+- Kênh liên lạc: nhóm chat của lớp; việc vướng ghi lên kênh kèm link commit/file.
+- Khi bất đồng về thiết kế: mỗi bên nói 2 phút; chưa xong thì Integrator (Linh) quyết và ghi lý do vào `docs/clarify.md`.
+- Khi ai đó trễ hoặc vướng quá 10 phút: báo ngay trên kênh, người dự phòng (cột cuối) nhảy vào pair.
+- Giờ standup: phút 20 và phút 35 của mỗi phase, 2–3 phút (đã xong / sắp làm / vướng), ghi `docs/standup.md`.
+- Đọc code của nhau: mỗi người đọc lát kế bên trước khi gộp; đổi hợp đồng (`docs/contracts/`) cần 2 người xem.
+- Git: `git pull --rebase` trước khi làm; push thẳng `main` sau khi `PYTHONPATH=tests:. python3 -m unittest discover -s tests` xanh; mỗi phase chỉ một người sửa một file (theo bảng trong kế hoạch phase); Linh gắn tag `phase-n` sau khi Hằng chạy `bash tools/proof.sh n`.
