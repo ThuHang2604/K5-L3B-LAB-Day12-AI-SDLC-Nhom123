@@ -1,6 +1,8 @@
 # Ma trận truy vết Phase 2 (Test Contract v1.1)
 
-Chạy `bash tools/proof.sh 2` trên commit bàn giao → [`docs/proof/phase-2/`](../proof/phase-2/). Kết quả test: [`tests.txt`](../proof/phase-2/tests.txt) (75 test, `RESULT: PASS`), commit ghi ở [`env.txt`](../proof/phase-2/env.txt) là commit code ngay trước commit tài liệu gắn tag (hai commit chỉ khác `docs/`, `README.md`, `CHANGELOG.md`, `AGENTS.md`).
+Lúc bàn giao Phase 2, nhóm chạy `bash tools/proof.sh 2` (75 test, `RESULT: PASS`). Ảnh UI: [`docs/proof/phase-2/ui/`](../proof/phase-2/ui/). Kết quả test hiện có: [`tests.txt`](../proof/phase-4/tests.txt), commit chạy ghi ở [`env.txt`](../proof/phase-4/env.txt).
+
+> **Ghi chú bằng chứng:** các file sinh lúc Phase 2 (trừ ảnh `ui/`) không được commit vào repo, và nhánh `main` không có commit riêng của Phase 2 để chạy lại. Các link dưới đây trỏ tới bản chạy lại regression ở Phase 4 (`bash tools/proof.sh 4` trên commit `18c7c05`, 92 test, xem AC-P4-07). Smoke bàn giao ở bản này dùng kho cá thể v1.2, nên nó chứng minh đường gather → quán chứ không phải định dạng kho đếm v1.1.
 
 | AC | Yêu cầu | Cách kiểm chứng | Bằng chứng | Kết quả |
 |---|---|---|---|---|
@@ -12,13 +14,13 @@ Chạy `bash tools/proof.sh 2` trên commit bàn giao → [`docs/proof/phase-2/`
 | AC-P2-06 | Ngất do quái/ngạt: `faint` (lost = phần còn lại LIFO) → `gather_end fainted`, quán vẫn mở kho rỗng; ngạt xuyên bất tử, không rơi hàng | `Monster.test_faint_by_monster_keeps_order`, `test_choke_ignores_invuln_*` | tests.txt | Đạt |
 | AC-P2-07 | 2 bếp/4 bàn: bàn trống id nhỏ, bếp lấy đơn cũ nhất (order_tick → id bàn), lịch 120 + 900k | `QuanV11.*` | tests.txt | Đạt |
 | AC-P2-08 | Trong day, khách chỉ gọi món của kế hoạch; quán riêng dùng cả 6 món | `Day.test_day_menu_filtered_by_plan`, `QuanV11.test_standalone_*` | tests.txt | Đạt |
-| AC-P2-09 | `--mode day`: day_start → day_plan → phase_start; đổi pha cùng tick, snapshot pha mới `phase_tick 0`; event kết thúc mang pha cũ | `Day.test_day_start_order_*`, `test_phase_changes_*` | tests.txt, [day1.jsonl](../proof/phase-2/day1.jsonl) | Đạt |
+| AC-P2-09 | `--mode day`: day_start → day_plan → phase_start; đổi pha cùng tick, snapshot pha mới `phase_tick 0`; event kết thúc mang pha cũ | `Day.test_day_start_order_*`, `test_phase_changes_*` | tests.txt, [day1.jsonl](../proof/phase-4/day1.jsonl) | Đạt |
 | AC-P2-10 | Công bố đúng kế hoạch D1–D5, chốt Ngày khi Shop đóng, `days_complete` | `Day.test_five_days_plan_and_upgrades_next_day` | tests.txt | Đạt |
-| AC-P2-11 | Shop: mua oxygen/hp, `buy_failed` funds/max_level/unknown, tự đóng 600 tick; cấp áp dụng từ Ngày kế | `Day.test_shop_*`, `tools/proof_days.py` | [days-upgrades.txt](../proof/phase-2/days-upgrades.txt) | Đạt |
+| AC-P2-11 | Shop: mua oxygen/hp, `buy_failed` funds/max_level/unknown, tự đóng 600 tick; cấp áp dụng từ Ngày kế | `Day.test_shop_*`, `tools/proof_days.py` | [days-upgrades.txt](../proof/phase-4/days-upgrades.txt) | Đạt |
 | AC-P2-12 | Pause: `paused`/`resumed`, sim_tick/phase_tick/timer đứng yên, cạnh hành động trong pause bị bỏ | `Pause.*` | tests.txt | Đạt |
-| AC-P2-13 | Smoke tích hợp gather `--inventory-out` → quan `--inventory`, stock tick 0 khớp | `tools/proof.sh` | [integration-check.txt](../proof/phase-2/integration-check.txt) | Đạt |
+| AC-P2-13 | Smoke tích hợp gather `--inventory-out` → quan `--inventory`, stock tick 0 khớp | `tools/proof.sh` | [integration-check.txt](../proof/phase-4/integration-check.txt) | Đạt |
 | AC-P2-14 | Regression P1 với số chuẩn | `test_smoke_p1`, `test_rules_p1` chạy lại | tests.txt | Đạt (2 test starter đổi có lý do, xem dưới) |
-| AC-P2-15 | Headless 1 Ngày (22.200 tick) ≤ 20 s; tất định từng byte | `Day.test_day_one_runs_under_20s`, `Determinism.*`, `cmp` | [day-timing.txt](../proof/phase-2/day-timing.txt) (0.47 s), [determinism.txt](../proof/phase-2/determinism.txt) | Đạt |
+| AC-P2-15 | Headless 1 Ngày (22.200 tick) ≤ 20 s; tất định từng byte | `Day.test_day_one_runs_under_20s`, `Determinism.*`, `cmp` | [day-timing.txt](../proof/phase-4/day-timing.txt) (1.0 s khi chạy lại ở P4), [determinism.txt](../proof/phase-4/determinism.txt) | Đạt |
 | AC-P2-16 | Menu Chơi/Thoát, DayIntro tự chuyển 4 s, EveningIntro, DayResult, Shop, Summary, pause Esc/P làm mờ nền | Chrome headless `tools/ui_shots.py` + `test_live.LiveDayFlow` | [ui/](../proof/phase-2/ui/) (9 ảnh) | Đạt |
 | AC-P2-17 | HUD sáng/tối đủ mục, chữ ≥ 18 px ở 1280×720; ≥ 30 FPS | Ảnh chụp 1280×720; đo `requestAnimationFrame` 2 s | ui/3-gather.png, ui/6-quan.png; FPS đo 60 | Đạt |
 

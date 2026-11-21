@@ -4,10 +4,10 @@
 
 | Thành viên | GitHub handle | Module chính | Vai quy trình | Người dự phòng cho |
 |---|---|---|---|---|
-| Đỗ Thị Thu Hằng | ThuHang2604 | `sim/day` (vòng ngày, Shop), adapter kho cá thể, `soak`, `tests/` | PO, QA lead (trưởng nhóm, chủ fork) | `sim/quan` |
-| Linh | xrkhanhlinh | `sim/gather` (lặn, cá, Cá Sấu, độ tươi giỏ) | Integrator (giữ `docs/contracts/`, gắn tag, Release) | `sim/day` |
-| Vinh | vinh-nhom123 | `sim/quan` (khách, giữ chỗ, bếp, tiền, giá theo tươi) | Scrum/Release, Đóng gói | `sim/gather` |
-| Dung | dung-nhom123 | `client/ui` (`chonoi/web`, `chonoi/live.py`, HUD, `bench`) | QA UI, Bench | `sim/quan` |
+| Đỗ Thị Thu Hằng | [ThuHang2604](https://github.com/ThuHang2604) | `sim/day` (vòng ngày, Shop), adapter kho cá thể, `soak`, `tests/` | PO, QA lead (trưởng nhóm, chủ fork) | `sim/quan` |
+| Nguyễn Khánh Linh | [xrkhanhlinh](https://github.com/xrkhanhlinh) | `sim/gather` (lặn, cá, Cá Sấu, độ tươi giỏ) | Integrator (giữ `docs/contracts/`, gắn tag, Release) | `sim/day` |
+| Trần Thành Vinh | [vinhs0](https://github.com/vinhs0) | `sim/quan` (khách, giữ chỗ, bếp, tiền, giá theo tươi) | Scrum/Release, Đóng gói | `sim/gather` |
+| Đặng Thùy Dung | [dtdung14](https://github.com/dtdung14) | `client/ui` (`chonoi/web`, `chonoi/live.py`, HUD, `bench`) | QA UI, Bench | `sim/quan` |
 
 **Vai quy trình:** PO (đầu mối hỏi Anh Năm/giảng viên, giữ `docs/clarify.md`) · Integrator (giữ `docs/contracts/`, gắn tag `phase-n`, công bố Release) · QA lead (giữ test + ma trận truy vết) · Scrum/Release (theo dõi mốc, đóng gói).
 

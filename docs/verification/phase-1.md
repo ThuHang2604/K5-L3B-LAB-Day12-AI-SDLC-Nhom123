@@ -1,6 +1,6 @@
 # Ma trận truy vết Phase 1 (Test Contract v1.0)
 
-Chạy trên commit gắn tag `phase-1`: `bash tools/proof.sh 1` → [`docs/proof/phase-1/`](../proof/phase-1/). Test: [`tests.txt`](../proof/phase-1/tests.txt) (`RESULT: PASS`).
+Bằng chứng lưu lúc Phase 1 trong [`docs/proof/phase-1/`](../proof/phase-1/) (chưa gắn tag `phase-1`). Test: [`test-output.txt`](../proof/phase-1/test-output.txt) (65 test, `OK`). Cột "tests.txt" bên dưới nghĩa là file này.
 
 | AC | Yêu cầu | Cách kiểm chứng | Bằng chứng | Kết quả |
 |---|---|---|---|---|
@@ -15,7 +15,7 @@ Chạy trên commit gắn tag `phase-1`: `bash tools/proof.sh 1` → [`docs/proo
 | AC-P1-09 | Nấu (tiêu nguyên liệu giữ) → chín → bưng → phục vụ → ăn → trả tiền + boa | `Quan.test_ac_full_order_cook_pick_serve_pay_tip`, `test_no_tip_below_half_patience` | tests.txt | Đạt |
 | AC-P1-10 | Hết ca: khách ăn trả `closing`, khách chờ rời không trừ uy tín, `quan_end` | `Quan.test_closing_pays_eating_and_releases_waiting` | tests.txt | Đạt |
 | AC-P1-11 | Fixture mâu thuẫn / sai schema → mã 2 trước khi ghi JSONL | `Quan.test_scenario_conflicts_exit_2`, `test_smoke_p1.Contract.*` | tests.txt | Đạt |
-| AC-P1-12 | Smoke hai tiến trình: quán tick 0 có `stock {"bong_sung":2,"ca_loc":1}` | `tools/proof.sh` | [integration-check.txt](../proof/phase-1/integration-check.txt), [integration-catch.json](../proof/phase-1/integration-catch.json) | Đạt |
+| AC-P1-12 | Smoke hai tiến trình: quán tick 0 có `stock {"bong_sung":2,"ca_loc":1}` | `tools/proof.sh` | [inventory.json](../proof/phase-1/inventory.json) (kho từ [playthrough gather](../proof/phase-1/playthrough_gather.jsonl)) = `stock` tick 0 của [playthrough quán](../proof/phase-1/playthrough_quan.jsonl); bàn giao kho mẫu kiểm trong `test_smoke_p1` (test-output.txt) | Đạt |
 | AC-P1-13 | Tất định: cùng seed/đầu vào → JSONL giống từng byte | `Contract.test_con_02_deterministic_bytes` + `cmp` | [determinism.txt](../proof/phase-1/determinism.txt) | Đạt |
 | AC-P1-14 | HUD đọc được: thời gian, oxy, Máu, giỏ / kho, món, kiên nhẫn, bếp, tay, tiền, uy tín | Chơi thử `python3 -m chonoi.live` (cửa sổ starter đọc snapshot) | chơi tay | Đạt mức tối thiểu (hình khối) |
 

@@ -10,7 +10,7 @@
 ## Chạy từ clone sạch (3 lệnh)
 
 ```bash
-git clone https://github.com/<owner>/K5-L3B-LAB-Day12-AI-SDLC-Nhom123.git
+git clone https://github.com/ThuHang2604/K5-L3B-LAB-Day12-AI-SDLC-Nhom123.git
 cd K5-L3B-LAB-Day12-AI-SDLC-Nhom123
 python3 -m chonoi.live          # mở http://127.0.0.1:8000/ — vòng 5 Ngày (thêm --days N, --seed N, --port N)
 ```
