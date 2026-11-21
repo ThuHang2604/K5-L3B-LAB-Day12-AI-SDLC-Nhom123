@@ -1,4 +1,4 @@
-# dungdt14 — phản tư cá nhân (Đặng Thùy Dung, QA UI + Bench)
+# dtdung14 — phản tư cá nhân (Đặng Thùy Dung, QA UI + Bench)
 
 - **Phần tôi làm:** P1 adapter đọc kho theo contract (`add7f8b`); P2 menu, các màn chuyển, pause, HUD, `test_live.py`, `ui_shots.py` (`fd3a285`); P3 HUD độ tươi (`fa2c165`); P4 `bench.py` 1280×720, cảnh báo chữ + biểu tượng, tương phản cao (`0468a4a`).
 - **Đã giúp ai:** chụp ảnh UI cho Hằng gắn ma trận truy vết; báo Linh cá đứng yên ở mép; báo Vinh kiên nhẫn hiển thị âm sau khi khách rời bàn.
