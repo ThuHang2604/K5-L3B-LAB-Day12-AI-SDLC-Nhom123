@@ -302,7 +302,8 @@ class QuanSim:
                                   "patience_ticks_left": c["patience_ticks_left"], "base_price": base, "tip": tip}))
 
     def _clamp_rep(self, v):
-        return min(self.t["reputation_max"], max(self.t["reputation_min"], v))
+        # làm tròn 9 chữ số để cộng dồn 0.2/0.5 không lệch floor(reputation) (3.9999999 -> 4)
+        return round(min(self.t["reputation_max"], max(self.t["reputation_min"], v)), 9)
 
     def _pay(self, c, reason, events):
         amount = c["base_price"] + c["tip"]
