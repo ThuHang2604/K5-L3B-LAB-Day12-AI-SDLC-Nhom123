@@ -4,13 +4,19 @@
 
 ## Lệnh
 - Test: `PYTHONPATH=tests:. python3 -m unittest discover -s tests -v`
-- Headless: `python3 -m chonoi.headless --mode gather|quan --seed 1 --ticks 600 --out out.jsonl`
-- Chơi thử trên trình duyệt: `python3 -m chonoi.live --mode gather|quan` (mở địa chỉ in ra; WASD, E, Space, R)
+- Headless: `python3 -m chonoi.headless --mode gather|quan|day --seed 1 --ticks 600 --out out.jsonl [--days 1..5]`
+- Chơi trên trình duyệt: `python3 -m chonoi.live` (vòng 5 Ngày; `--mode gather|quan` để chơi riêng; WASD, E, Space, Esc/P, Shop 1/2/Enter)
+- Chụp màn UI + FPS (cần playwright + Chrome): `python3 tools/ui_shots.py "$PWD" docs/proof/phase-2/ui`
+- Bằng chứng + smoke hai tiến trình: `bash tools/proof.sh <phase>` → `docs/proof/phase-<n>/`
+- Benchmark: `python3 -m chonoi.bench --seed 42 --duration 30 --out bench.json` · Soak: `python3 -m chonoi.soak --seed 7 --days 10 --out soak.json`
+- Đóng gói: `bash tools/package.sh v1.0.0`
 
 ## Cấu trúc & quy ước
 - (Starter Python là TÙY CHỌN; nhóm có thể dùng ngôn ngữ khác nếu giữ Test Contract.) Khung do giảng viên cấp: `chonoi/{headless,inputs,scenario,contract,rng,ids,jsonl,inventory,runner,live}.py` và `chonoi/web/`. Hạn chế sửa; nếu phải sửa thì báo cả nhóm và ghi lại lý do.
-- Luật chơi của nhóm: `chonoi/sim/gather.py`, `chonoi/sim/quan.py` (tìm `TODO(nhóm)`).
+- Luật chơi của nhóm: `chonoi/sim/gather.py`, `chonoi/sim/quan.py`, `chonoi/sim/day.py`. Thứ tự một bước ghi ở docstring đầu mỗi file — sửa luật thì sửa docstring cùng lúc.
+- Trạng thái chỉ dành cho UI (màn chuyển, thống kê) nằm ở `chonoi/live.py`, khóa riêng (`ui_hold`, `stats`), không được trùng khóa snapshot.
 - **Số liệu chỉ đọc từ `game.contract.json` / dữ liệu**, không hard-code trong luật.
+- Độ tươi chỉ tính bằng đơn vị nguyên qua `chonoi/fresh.py` (240/điểm); không so ngưỡng bằng số thực.
 - Mọi số ngẫu nhiên đi qua `Streams` (`chonoi/rng.py`); không dùng `random` toàn cục, không dùng đồng hồ hệ thống.
 - Sắp danh sách thực thể bằng `ids.sort_by_id`; cấp id bằng `IdAllocator`.
 
@@ -26,4 +32,5 @@
 - Sáng tạo thêm được khuyến khích nhưng phải tắt ở headless (xem README, mục "Tự do sáng tạo").
 
 ## Skills / hooks của nhóm
-- (Ghi tên và khi nào dùng; tối thiểu 2 skill/hook/command nhóm tự viết, đặt ở `.agents/skills/` hoặc tương đương.)
+- `.agents/skills/run-smoke/` — chạy test + smoke gather→quan, lưu bằng chứng; dùng trước khi gắn tag.
+- `.agents/skills/contract-check/` — checklist đối chiếu thay đổi luật với Test Contract; dùng trước mỗi commit sửa `chonoi/sim/*`.
