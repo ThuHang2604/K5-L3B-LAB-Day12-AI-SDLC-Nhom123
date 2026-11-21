@@ -116,7 +116,7 @@ class LiveGame:
             self.hold = "day_intro"
         elif n == "phase_start" and row["phase"] == "quan":
             self._day_stat = {"day": sim.day, "served": 0, "left": 0, "income": 0, "tips": 0,
-                              "rep_start": sim.reputation, "stock": dict(sim.sub.stock)}
+                              "rep_start": sim.reputation}
             self.hold = "evening_intro"
         elif n == "phase_start" and row["phase"] == "shop":
             if self._day_stat:

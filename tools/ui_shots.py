@@ -7,7 +7,7 @@ from chonoi.live import LiveGame, LiveServer
 from playwright.sync_api import sync_playwright
 
 tuning = load_contract()["tuning"]
-sc = {"gather": {"hold": ["ca_loc", "ca_loc", "bong_sung", "bong_sung", "bong_sung"], "player": {"pos": [58, 18]}}}
+sc = {"gather": {"hold": [{"id": f"I{i+1}", "kind": k, "fresh": f} for i, (k, f) in enumerate([("ca_loc", 100), ("ca_loc", 45), ("bong_sung", 100), ("bong_sung", 31), ("bong_sung", 100)])], "player": {"pos": [58, 18]}}}
 game = LiveGame("day", tuning, sc, 3, days=1)
 srv = LiveServer(game, port=0); srv.start()
 base = f"http://127.0.0.1:{srv.port}"

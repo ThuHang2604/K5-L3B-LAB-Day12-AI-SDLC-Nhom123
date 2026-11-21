@@ -167,6 +167,23 @@ function button(label, x, y, w, h, selected, fn) {
   text(label, x + w / 2, y + h / 2 + 7, { size: 24, align: "center", bold: selected });
   buttons.push({ x, y, w, h, fn });
 }
+const SPOIL = 30;
+function freshColor(f) { return f < SPOIL ? "#e5484d" : f < 60 ? "#f5c542" : "#7bd389"; }
+function freshChip(x, y, it) {
+  ctx.fillStyle = freshColor(it.fresh); ctx.fillRect(x, y, 16, 16);
+  ctx.fillStyle = "rgba(0,0,0,.55)"; ctx.fillRect(x, y, 16, 16 * (1 - it.fresh / 100));
+  if (it.fresh < SPOIL) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 16, y + 16); ctx.stroke(); ctx.lineWidth = 1; }
+}
+function stockSummary(stock, reservedIds) {
+  // theo loại: số khả dụng (chưa ươn, chưa giữ), độ tươi trung bình, số ươn
+  const g = {};
+  (stock || []).forEach((it) => {
+    const e = g[it.kind] || (g[it.kind] = { avail: 0, sum: 0, n: 0, spoiled: 0 });
+    if (it.fresh < SPOIL) e.spoiled++;
+    else { e.sum += it.fresh; e.n++; if (!reservedIds.has(it.id)) e.avail++; }
+  });
+  return Object.keys(g).sort().map((k) => `${kn(k)} ${g[k].avail}` + (g[k].n ? ` (${Math.round(g[k].sum / g[k].n)}%)` : "") + (g[k].spoiled ? ` +${g[k].spoiled} ươn` : ""));
+}
 function plantDish(d) { return Object.keys(d || {}).map((k) => `${dn(k)} ×${d[k]}`); }
 
 // ---------------- buổi sáng: mặt cắt sông ----------------
@@ -254,15 +271,18 @@ function drawGatherHud(monsterNear) {
   text(`Độ sâu ${p.pos[1].toFixed(1)} m (${p.at_surface ? "mặt nước" : zone})`, 380, 76);
   text("Hồi bắt", 380, 102, { color: "#cfd8dc" });
   bar(470, 88, 120, 16, p.catch_cd_ticks > 0 ? 1 - p.catch_cd_ticks / 30 : 1, p.catch_cd_ticks > 0 ? "#ffcc00" : "#7bd389");
-  // giỏ theo loại
-  const counts = {};
-  (s.hold || []).forEach((k) => (counts[k] = (counts[k] || 0) + 1));
+  // giỏ theo loại + độ tươi (ô màu theo fresh, ươn = đỏ có gạch)
+  const counts = {}, good = {};
+  (s.hold || []).forEach((it) => { counts[it.kind] = (counts[it.kind] || 0) + 1; if (it.fresh >= SPOIL) good[it.kind] = (good[it.kind] || 0) + 1; });
   text(`Giỏ ${s.hold_count}/${s.hold_capacity}:`, 650, 40, { bold: true });
-  text(Object.keys(counts).map((k) => `${kn(k)} ${counts[k]}`).join(" · ") || "(trống)", 650, 66, { color: "#ffe9b0" });
+  const spoiledN = (s.hold || []).filter((it) => it.fresh < SPOIL).length;
+  text(Object.keys(counts).map((k) => `${kn(k)} ${counts[k]}`).join(" · ") + (spoiledN ? ` (${spoiledN} ươn)` : "") || "(trống)",
+    650, 66, { color: spoiledN ? "#ffb4a8" : "#ffe9b0" });
+  (s.hold || []).forEach((it, i) => freshChip(790 + i * 20, 24, it));
   // danh sách cần lấy
   if (s.day_plan) {
     const need = s.day_plan.ingredients;
-    const line = Object.keys(need).map((k) => `${kn(k)} ${Math.min(counts[k] || 0, need[k])}/${need[k]}`).join(" · ");
+    const line = Object.keys(need).map((k) => `${kn(k)} ${Math.min(good[k] || 0, need[k])}/${need[k]}`).join(" · ");
     text("Cần lấy: " + line, 650, 96, { color: "#b9f6ca" });
     text(`Ngày ${s.day}`, W - 30, 40, { align: "right", bold: true });
   }
@@ -323,7 +343,8 @@ function drawQuan() {
     if (c) {
       ctx.fillStyle = c.state === "eating" ? "#7bd389" : "#f0c9a0";
       ctx.beginPath(); ctx.arc(x + 40, y, 13, 0, 7); ctx.fill();
-      text(dn(c.dish_id), x, y - 42, { align: "center", size: 18 });
+      text(dn(c.dish_id) + (c.order_status === "unfulfillable" ? " (hết hàng tươi)" : ""), x, y - 42, { align: "center", size: 18,
+        color: c.order_status === "unfulfillable" ? "#ffb4a8" : "#f4f1e8" });
       if (c.state === "waiting") {
         const f = c.patience_ticks_left / patienceFull;
         bar(x - 50, y + 36, 100, 12, f, f < 0.25 ? "#ff3b30" : f < 0.5 ? "#ffcc00" : "#7bd389");
@@ -339,10 +360,10 @@ function drawQuan() {
   text("Ca tối còn " + fmtTime(s.time_left_ticks), 24, 42, { size: 26, bold: true, color: s.time_left_ticks <= 1800 ? "#ff6b5e" : "#f4f1e8" });
   text(`Tiền ca: ${s.day_stat ? s.day_stat.income : s.earned} nghìn · Số dư: ${s.money}`, 24, 74);
   text(`Uy tín ${s.reputation.toFixed(1)} ★ · Điểm ${s.score}`, 24, 104);
-  const reserved = {};
-  (s.customers || []).forEach((c) => Object.keys(c.reserved || {}).forEach((k) => (reserved[k] = (reserved[k] || 0) + c.reserved[k])));
-  const avail = Object.keys(s.stock || {}).map((k) => `${kn(k)} ${s.stock[k] - (reserved[k] || 0)}`).join(" · ");
-  text("Kho khả dụng: " + (avail || "(trống)"), 470, 42, { color: "#ffe9b0" });
+  const reservedIds = new Set();
+  (s.customers || []).forEach((c) => (c.reserved || []).forEach((id) => reservedIds.add(id)));
+  const avail = stockSummary(s.stock, reservedIds).join(" · ");
+  text("Kho khả dụng (độ tươi): " + (avail || "(trống)"), 470, 42, { color: "#ffe9b0" });
   text("Đang cầm: " + (s.hand ? `${dn(s.hand.dish_id)} (bàn của ${s.hand.order_id})` : "—"), 470, 74);
   if (s.day) text(`Ngày ${s.day}`, W - 30, 42, { align: "right", bold: true });
   text("E: nấu ở bếp trống · bưng món chín · phục vụ ở bàn", 470, 104, { color: "#cfd8dc" });
@@ -398,8 +419,9 @@ function drawOverlay(ov) {
   } else if (ov === "evening_intro") {
     dim();
     text("Lên đèn mở quán!", W / 2, 200, { size: 46, bold: true, align: "center", color: "#ffd27a" });
-    const st = s.stock || {};
-    text("Nhập kho: " + (Object.keys(st).map((k) => `${kn(k)} ×${st[k]}`).join(", ") || "không có gì"), W / 2, 270, { align: "center" });
+    const st = {};
+    (s.stock || []).forEach((it) => { if (it.fresh >= SPOIL) st[it.kind] = (st[it.kind] || 0) + 1; });
+    text("Nhập kho: " + (stockSummary(s.stock, new Set()).join(", ") || "không có gì"), W / 2, 270, { align: "center" });
     const can = Object.keys(s.day_plan ? s.day_plan.dishes : s.menu_data || {}).filter((d) =>
       Object.entries(s.menu_data[d].recipe).every(([k, v]) => (st[k] || 0) >= v));
     text("Món nấu được: " + (can.map(dn).join(", ") || "chưa đủ nguyên liệu món nào"), W / 2, 320, { align: "center", color: "#fff3c4" });
